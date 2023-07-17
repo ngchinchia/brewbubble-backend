@@ -161,7 +161,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 
 app.get("/", (req, res) => {
-  res.send("<h1>Hello World</h1>");
+  res.send("<h1>Server Is Running!</h1>");
 });
 
 app.listen(process.env.PORT || 8000, () => {
