@@ -2,7 +2,7 @@
 the provided email is already in use, creating a new user object, saving it to the database, and returning the created user as a response. */
 const jwt = require('jsonwebtoken');
 const User = require("../user");
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 exports.createUser = async (req, res) => {
   const { first, last, email, password } = req.body;

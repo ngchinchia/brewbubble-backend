@@ -3,7 +3,7 @@
 and exports it as a Mongoose model. It also provides a static method to check if an email is already in use by an existing user. */
 
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
+const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
   first: {
