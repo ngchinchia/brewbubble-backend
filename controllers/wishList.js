@@ -30,6 +30,66 @@ exports.addToList = async (req, res) => {
   }
 };
 
+
+exports.addVenueToList = async (req, res) => {
+  const { listType, venueID } = req.body; // Assuming the data is sent in the request body
+  const userID = req.user.id;
+
+  try {
+    const duplicateCheck = await wishList.findOne({ listType, venueID, userID });
+
+    if (duplicateCheck) {
+      return res
+        .status(400)
+        .json({ error: "Item already added in wish list!" });
+    }
+    const newItem = new wishList({
+      listType,
+      venueID,
+      userID,
+    });
+
+    // Save the new item to the wish list
+    const savedItem = await newItem.save();
+    console.log("added to wish list");
+    res.status(201).json(savedItem);
+  } catch (error) {
+    console.log("Unable to add to wish list:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+
+exports.addBreweryToList = async (req, res) => {
+  const { listType, breweryID } = req.body; // Assuming the data is sent in the request body
+  const userID = req.user.id;
+
+  try {
+    const duplicateCheck = await wishList.findOne({ listType, breweryID, userID });
+
+    if (duplicateCheck) {
+      return res
+        .status(400)
+        .json({ error: "Item already added in wish list!" });
+    }
+    const newItem = new wishList({
+      listType,
+      breweryID,
+      userID,
+    });
+
+    // Save the new item to the wish list
+    const savedItem = await newItem.save();
+    console.log("added to wish list");
+    res.status(201).json(savedItem);
+  } catch (error) {
+    console.log("Unable to add to wish list:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+
+
 exports.deleteFromList = async (req, res) => {
   const { listType, beerID } = req.body; // Assuming the data is sent in the request body
   const userID = req.user.id;

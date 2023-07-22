@@ -16,6 +16,11 @@ const wishListSchema = new mongoose.Schema({
     ref: 'Venue',
     default: null,
   },
+  breweryID: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Brewery',
+    default: null,
+  },
   userID: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
