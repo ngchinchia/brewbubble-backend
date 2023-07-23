@@ -21,6 +21,9 @@ const venueSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
   },
+  venueImage: {
+    type: String,
+  },
   promotionID: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Promotion',
