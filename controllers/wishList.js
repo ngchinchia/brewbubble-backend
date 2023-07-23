@@ -195,6 +195,33 @@ exports.deleteBreweryFromList = async (req, res) => {
   }
 };
 
+exports.deleteAllFromList = async (req, res) => {
+  const userID = req.params.userId;
+
+  try {
+    // Delete all wishlist items for the user
+    const deleteResult = await wishList.deleteMany({ userID });
+
+    if (deleteResult.deletedCount === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No items found in the wish list",
+      });
+    }
+
+    res.json({
+      success: true,
+      message: "All items deleted successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to delete items from wish list",
+      error: error.message,
+    });
+  }
+};
+
 
 
 exports.getWishlist = async (req, res) => {

@@ -29,6 +29,9 @@ const BrewerySchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Beer',
   }],
+  breweryImage: {
+    type: String,
+  },
 });
 
 // Function to fetch all wish list items from the database
