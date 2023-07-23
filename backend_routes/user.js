@@ -30,7 +30,11 @@ const { isAuth } = require("../middleware/validation/auth");
 const {
   addToList,
   deleteFromList,
+  deleteVenueFromList,
+  deleteBreweryFromList,
   getWishlist,
+  addVenueToList,
+  addBreweryToList
 } = require("../controllers/wishList");
 const { postQuestion, getQuestions } = require("../controllers/postQuestion");
 const { postAnswer } = require("../controllers/postQuestion");
@@ -123,7 +127,11 @@ router.post("/user-add-friend/:id", AddFriend);
 
 /*-----------------ROUTES FOR WISH LIST----------------------------------------------*/
 router.post("/wishlist", isAuth, addToList);
+router.post("/wishlist/addVenue", isAuth, addVenueToList);
+router.post("/wishlist/addBrewery", isAuth, addBreweryToList);
 router.delete("/wishlist/", isAuth, deleteFromList);
+router.delete("/wishlist/venue", isAuth, deleteVenueFromList);
+router.delete("/wishlist/brewery", isAuth, deleteBreweryFromList);
 router.get("/wishlist/:userId", isAuth, getWishlist);
 /*-----------------ROUTES FOR Q&A----------------------------------------------*/
 router.post("/question", isAuth, postQuestion)

@@ -125,6 +125,78 @@ exports.deleteFromList = async (req, res) => {
   }
 };
 
+exports.deleteVenueFromList = async (req, res) => {
+  const { listType, venueID } = req.body; // Assuming the data is sent in the request body
+  const userID = req.user.id;
+
+  try {
+
+    const deleteItem = await wishList.findOneAndDelete({
+      listType,
+      venueID,
+      userID,
+    });
+
+    
+
+    if (!deleteItem) {
+      return res.status(404).json({
+        success: false,
+        message: "Item not found in wish list",
+      });
+    }
+
+    res.json({
+      success: true,
+      message: "Item deleted successfully",
+      item: deleteItem,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to delete item from wish list",
+      error: error.message,
+    });
+  }
+};
+
+exports.deleteBreweryFromList = async (req, res) => {
+  const { listType, breweryID } = req.body; // Assuming the data is sent in the request body
+  const userID = req.user.id;
+
+  try {
+
+    const deleteItem = await wishList.findOneAndDelete({
+      listType,
+      breweryID,
+      userID,
+    });
+
+    
+
+    if (!deleteItem) {
+      return res.status(404).json({
+        success: false,
+        message: "Item not found in wish list",
+      });
+    }
+
+    res.json({
+      success: true,
+      message: "Item deleted successfully",
+      item: deleteItem,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to delete item from wish list",
+      error: error.message,
+    });
+  }
+};
+
+
+
 exports.getWishlist = async (req, res) => {
   const userId = req.params.userId;
 
