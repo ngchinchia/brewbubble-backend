@@ -31,28 +31,37 @@ const beerSchema = new mongoose.Schema({
   }
 });
 
-// Function to calculate and set the average rating for the beer
-async function calculateAverageRating(beerId) {
+beerSchema.methods.calculateAverageRating = async function () {
   try {
-    const reviews = await mongoose.model("Review").find({ beer: beerId }, 'rating');
-    const numReviews = reviews.length;
-    if (numReviews === 0) {
-      return 0; // Return 0 if there are no reviews for the beer
+    // Fetch all reviews for this beer
+    const reviews = await mongoose.model("Review").find({ beer: this._id });
+
+    // Calculate the total rating and number of reviews
+    let totalRating = 0;
+    let reviewCount = reviews.length;
+
+    for (const review of reviews) {
+      totalRating += review.rating;
     }
-    const sum = reviews.reduce((acc, review) => acc + review.rating, 0);
-    const averageRating = sum / numReviews;
-    return averageRating;
+
+    // Calculate the average rating (rounded to 2 decimal places)
+    const averageRating = reviewCount > 0 ? parseFloat((totalRating / reviewCount).toFixed(2)) : 0;
+
+    // Update the beer's rating field
+    this.rating = averageRating;
+
+    // Save the updated beer document
+    await this.save();
+
+    return this;
   } catch (error) {
     console.log("Error calculating average rating:", error);
     throw new Error("Internal server error");
   }
-}
+};
 
-// Middleware to calculate and set the average rating before saving a Beer document
-beerSchema.pre('save', async function (next) {
-  this.rating = await calculateAverageRating(this._id);
-  next();
-});
+
+
 
 
 //Function to fetch all beer from the database
