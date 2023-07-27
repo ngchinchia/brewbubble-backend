@@ -18,6 +18,9 @@ const user = require("./user");
 const Venue = require("./venue");
 const venue = require("./venue");
 const Promotion = require("./promotion");
+const Brewery = require("./brewery");
+const AllBeer = require("./trendingbeer");
+
 const { getAllKeys } = require('./keywordmapping');
 
 //created, check
@@ -106,10 +109,25 @@ app.get("/beers", async (req, res) => {
     // Send the fetched users as a response
     res.json(beers);
   } catch (error) {
-    console.log("Error fetching users:", error);
+    console.log("Error fetching beers:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 });
+
+// API endpoint to fetch data for all beers
+app.get("/allbeers", async (req, res) => {
+  try {
+    // Call the fetchAllUsers function to get all users
+    const allbeers = await AllBeer.fetchAllTrendingBeer();
+
+    // Send the fetched users as a response
+    res.json(allbeers);
+  } catch (error) {
+    console.log("Error fetching allbeers:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 
 app.get("/venue", async (req, res) => {
   try {
@@ -121,6 +139,18 @@ app.get("/venue", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
+
+app.get("/brewery", async (req, res) => {
+  try {
+    const brewery = await Brewery.getAllBrewerys();
+
+    res.json(venue);
+  } catch (error) {
+    console.log("Error fetching brewery:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 
 app.get('/keys', (req, res) => {
   const keys = getAllKeys();
