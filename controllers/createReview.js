@@ -71,11 +71,14 @@ const createReview = async (req, res) => {
         image: `${req.protocol}://${req.get("host")}/uploads/${image.filename}`, // Save the filename in the review document
       });
 
-      //image.filename
-      // `${req.protocol}://${req.get('host')}/images/${image.filename}`
       // Save the review
       await review.save();
 
+      // Calculate the average rating for the associated beer after saving the review
+      const beerToUpdate = await Beer.findById(beerId);
+      await beerToUpdate.calculateAverageRating();
+
+      // Send the response only once, after all the operations are completed
       res.status(201).json(review);
     });
   } catch (error) {
@@ -83,6 +86,7 @@ const createReview = async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 };
+
 
 const getReviewById = async (req, res) => {
   try {
@@ -185,13 +189,13 @@ const updateReview = async (req, res) => {
       // Update the image if a new image is uploaded
       if (req.file) {
         const image = req.file;
-        review.image = `${req.protocol}://${req.get("host")}/uploads/${image.filename
-          }`;
+        review.image = `${req.protocol}://${req.get("host")}/uploads/${image.filename}`;
       }
 
       // Save the updated review
       await review.save();
 
+      // Send the response only once, after all the operations are completed
       res.status(200).json(review);
     });
   } catch (error) {
@@ -199,6 +203,7 @@ const updateReview = async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 };
+
 
 const deleteReview = async (req, res) => {
   try {

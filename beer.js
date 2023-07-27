@@ -24,8 +24,44 @@ const beerSchema = new mongoose.Schema({
   brewerID: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
+  },
+  rating: {
+    type: Number,
+    default: 0, 
   }
 });
+
+beerSchema.methods.calculateAverageRating = async function () {
+  try {
+    // Fetch all reviews for this beer
+    const reviews = await mongoose.model("Review").find({ beer: this._id });
+
+    // Calculate the total rating and number of reviews
+    let totalRating = 0;
+    let reviewCount = reviews.length;
+
+    for (const review of reviews) {
+      totalRating += review.rating;
+    }
+
+    // Calculate the average rating (rounded to 2 decimal places)
+    const averageRating = reviewCount > 0 ? parseFloat((totalRating / reviewCount).toFixed(2)) : 0;
+
+    // Update the beer's rating field
+    this.rating = averageRating;
+
+    // Save the updated beer document
+    await this.save();
+
+    return this;
+  } catch (error) {
+    console.log("Error calculating average rating:", error);
+    throw new Error("Internal server error");
+  }
+};
+
+
+
 
 
 //Function to fetch all beer from the database
