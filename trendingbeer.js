@@ -185,18 +185,20 @@ const trendingbeerSchema = new mongoose.Schema({
   },
 });
 
-trendingBeerSchema.statics.fetchAllTrendingBeer = async function () {
-  try {
-    // Fetch data from MongoDB using your data retrieval logic
-    const data = await this.find();
 
-    // Return the fetched data
-    return data;
-  } catch (error) {
-    console.log("Error fetching data:", error);
-    throw new Error("Internal server error");
-  }
-};
+
+// trendingBeerSchema.statics.fetchAllTrendingBeer = async function () {
+//   try {
+//     // Fetch data from MongoDB using your data retrieval logic
+//     const data = await this.find();
+
+//     // Return the fetched data
+//     return data;
+//   } catch (error) {
+//     console.log("Error fetching data:", error);
+//     throw new Error("Internal server error");
+//   }
+// };
 
 
 module.exports = mongoose.model('TrendBeer', trendingbeerSchema, 'allbeers');
