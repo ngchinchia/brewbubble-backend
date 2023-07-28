@@ -196,7 +196,7 @@ const trendingbeerSchema = new mongoose.Schema({
 //     return data;
 //   } catch (error) {
 //     console.log("Error fetching data:", error);
-//     throw new Error("Internal server error");
+//     throw new Error("Internal server  error");
 //   }
 // };
 
